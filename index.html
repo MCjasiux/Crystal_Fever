@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crystal Fever</title>
+
+
+    <link rel="icon" href="sprites/Gem.png">
+    <style>
+        #canvas2 {
+            position: absolute;
+        }
+
+        #canvas3 {
+            position: absolute;
+            z-index: 3;
+        }
+
+        #canvas4 {
+            position: absolute;
+            z-index: 4;
+        }
+
+        body {
+            position: relative;
+        }
+
+        #curtain {
+            background-color: black;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            --transition: all 2s linear;
+        }
+
+        #container {
+            width: 608px;
+            margin: 0 auto;
+            border: 1px solid black;
+            display: flex;
+            position: relative;
+            vertical-align: center;
+        }
+
+        #stash img {
+            display: none;
+        }
+
+        @font-face {
+            font-family: "Digital";
+            src: url("fonts/digital-7.mono.ttf") format("opentype");
+        }
+
+        @font-face {
+            font-family: "C64";
+            src: url("fonts/C64_Pro_Mono-STYLE.ttf");
+        }
+    </style>
+</head>
+
+<body id="body" onload="init()">
+    <div id="container">
+        <canvas id="canvas" width="608" height="384">
+        </canvas>
+        <canvas id="canvas2" width="608" height="384">
+        </canvas>
+        <canvas id="canvas3" width="608" height="384">
+        </canvas>
+        <canvas id="canvas4" width="608" height="384">
+        </canvas>
+        <div id="curtain"></div>
+    </div>
+    <div id="stash">
+
+        <img src="images/Crystal_Fever_1.png" alt="" id="intro">
+        <img src="sprites/Gem_2.png" alt="" id="gem">
+        <img src="sprites/Wall.png" alt="" id="wall">
+        <img src="sprites/Player.png" alt="" id="player">
+        <img src="sprites/Player2.png" alt="" id="player2">
+        <img src="sprites/Red.png" alt="" id="red">
+        <img src="sprites/Portal_full.png" alt="" id="portal">
+        <img src="sprites/Dirt.png" alt="" id="dirt">
+        <img src="sprites/Gem_blue.png" alt="" id="gem_blue">
+        <img src="sprites/Void_animated_4.png" alt="" id="void">
+        <img src="sprites/Digging_full.png" alt="" id="digging_full">
+        <img src="sprites/Player2_animated_full.png" alt="" id="player2_animated_full">
+        <img src="sprites/Player_animated_full.png" alt="" id="player_animated_full">
+        <img src="sprites/Playerq2_animated_full.png" alt="" id="player2_animated_full">
+        <img src="sprites/1RXSL.png" alt="" id="1RXSL">
+        <img src="sprites/Boulder.png" alt="" id="boulder">
+    </div>
+    <div id="test">
+
+    </div>
+    <script src="camera.js"></script>
+    <script src="player.js"></script>
+    <script src="main.js"></script>
+    <script src="controls.js"></script>
+    <script src="ui.js"></script>
+
+</body>
+
+</html>

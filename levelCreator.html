@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crystal Fever Level Designer</title>
+</head>
+<script>
+    var tab = []
+    var x = 30
+    var choice = 0
+    var y = 30
+
+    function load() {
+        var arr = JSON.parse(document.getElementById("textarea").value)
+        document.getElementById("plane").innerHTML = ""
+        for (var i = 0; i < arr.length; i++) {
+            tab.push([])
+
+            for (var j = 0; j < arr[i].length; j++) {
+                tab[i].push(arr[i][j])
+                var div = document.createElement("div")
+                div.id = (i + "_" + j)
+                div.classList.add("dv")
+                div.style.left = ((32 * j) + "px")
+                div.style.top = ((32 * i) + "px")
+                var what = 0
+                if (arr[i] && arr[i][j])
+                    what = arr[i][j]
+                //wall,dirt,gem
+                switch (what) {
+                    case 1:
+                        div.classList.add("wall")
+                        break
+                    case 2:
+                        div.classList.add("dirt")
+                        break
+                    case 3:
+                        div.classList.add("gem")
+                        break
+                    case 4:
+                        div.classList.add("gem_blue")
+                        break;
+                    case 7:
+                        div.classList.add("boulder")
+                        break;
+
+                    default:
+                        div.classList = ""
+                        div.classList.add("dv")
+                }
+                div.addEventListener("mousemove", function (event) {
+                    put(event, this)
+                })
+                div.addEventListener("click", function (event) {
+                    put(event, this)
+                })
+                document.getElementById("plane").appendChild(div)
+            }
+            var br = document.createElement("br")
+            document.getElementById("plane").appendChild(br)
+        }
+    }
+
+    function fillBorders() {
+        for (var i = 0; i < y; i++) {
+            for (var j = 0; j < x; j++) {
+                if (i == 0 || i == y - 1 || j == 0 || j == x - 1) {
+                    var dv = document.getElementById(i + "_" + j)
+                    dv.classList = ""
+                    dv.classList.add("dv")
+                    dv.classList.add("wall")
+                    tab[i][j] = 1
+                    //wall,dirt,gem         
+
+                }
+            }
+
+        }
+    }
+
+    function getMap() {
+        var myjson = JSON.stringify(tab);
+        console.log(myjson);
+        var x = window.open();
+        x.document.open();
+        x.document.write('<html><body><textarea cols="60" rows="40">' + myjson + '</textarea></body></html>');
+        x.document.close();
+    }
+
+    function put(e, that) {
+        var that = that
+        click()
+        var nums = (that.id).split("_")
+        //console.log(e)
+
+        if (e.buttons == 1 || e.type == "click") {
+            check(nums[0], nums[1], choice)
+            that.classList = ""
+            that.classList.add("dv")
+            switch (choice) {
+                case 0:
+                    break;
+                case 1:
+                    that.classList.add("wall")
+                    break;
+                case 2:
+
+                    that.classList.add("dirt")
+                    break;
+                case 3:
+                    that.classList.add("gem")
+
+                    break;
+                case 4:
+                    that.classList.add("gem_blue")
+                    break;
+                case 7:
+                    that.classList.add("boulder")
+                    break;
+            }
+        } else if (e.buttons == 4) {
+            that.classList = ""
+            that.classList.add("dv")
+            check(nums[0], nums[1], 0)
+        }
+
+
+    }
+
+    function init() {
+        x = document.getElementById("x").value
+        y = document.getElementById("y").value
+        document.getElementById("plane").innerHTML = ""
+        for (var i = 0; i < y; i++) {
+            tab.push([])
+            for (var j = 0; j < x; j++) {
+                tab[i][j] = 0
+                var div = document.createElement("div")
+                div.id = (i + "_" + j)
+                div.classList.add("dv")
+                div.style.left = ((32 * j) + "px")
+                div.style.top = ((32 * i) + "px")
+                if (i == 0 || i == y - 1 || j == 0 || j == x - 1) {
+                    div.classList.add("wall")
+                    tab[i][j] = 1
+                    //wall,dirt,gem
+                }
+                div.addEventListener("mousemove", function (event) {
+                    put(event, this)
+                })
+                div.addEventListener("click", function (event) {
+                    put(event, this)
+                })
+                document.getElementById("plane").appendChild(div)
+            }
+            var br = document.createElement("br")
+            document.getElementById("plane").appendChild(br)
+        }
+    }
+
+    function check(x, y, what) {
+        tab[x][y] = what
+    }
+
+    function click() {
+        var temp = document.getElementsByName("radio")
+        for (var i = 0; i < temp.length; i++) {
+            if (temp[i].checked) {
+                choice = i
+                break;
+
+            }
+        }
+        //    console.log(choice)
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+
+        init()
+
+
+    })
+</script>
+<style>
+    .dv {
+        border: 1px solid black;
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        background-size: 32px;
+    }
+
+    .wall {
+        background-image: url("sprites/Wall.png");
+    }
+
+    .dirt {
+        background-image: url("sprites/Dirt.png");
+    }
+
+    .gem {
+        background-image: url("sprites/Gem.png");
+
+    }
+
+    .gem_blue {
+        background-image: url("sprites/Gem_blue.png");
+
+    }
+
+    .boulder {
+        background-image: url("sprites/Boulder.png");
+    }
+
+    #controls {
+        position: fixed;
+        right: 0px;
+        top: 0px;
+    }
+</style>
+
+<body id="body">
+    <!--
+    Kolekcja <input radio> odpowiada identyfikatorom elementu -> stąd 2 typu hidden (7 to boulder)
+    -->
+    <div id="plane"></div>
+    <div id="controls">
+        Wyczyść:
+        <input type="radio" name="radio" id="r0" onclick="click()">
+        </br>
+        Ściana:
+        <input type="radio" name="radio" id="r1" onclick="click()">
+        </br>
+        Ziemia:
+        <input type="radio" name="radio" id="r2" onchange="click()">
+        </br>
+        Zielony Klejnot:
+        <input type="radio" name="radio" id="r3" onchange="click()">
+        </br>
+        Niebieski Klejnot:
+        <input type="radio" name="radio" id="r4" onchange="click()">
+        </br>
+        <input type="hidden" name="radio">
+        <input type="hidden" name="radio"> Głaz:
+        <input type="radio" name="radio" id="r4" onchange="click()">
+        </br>
+
+        <button onclick="fillBorders()">Zamuruj granice</button></br>
+        <button onclick="getMap()">Renderuj mapę</button></br>
+        Wysokość:
+        <input type="number" name="x" id="y"></br>
+        Szerokość:
+        <input type="number" name="y" id="x"></br>
+        <button onclick="init()">Reset</button></br>
+        <textarea id="textarea"></textarea>
+        <button onclick="load()">Załaduj</button>
+    </div>
+
+
+</body>
+
+</html>
